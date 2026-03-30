@@ -59,7 +59,7 @@
     '#spotlight::before { content:""; position:absolute; inset:0; z-index:2; pointer-events:none; background: radial-gradient(ellipse at 0% 50%, rgba(194,58,34,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 50%, rgba(194,58,34,0.08) 0%, transparent 50%); }',
     '/* Intro characters: blue ambient glow behind characters — matches prototype .intro-characters::before */',
     '.v2-intro-characters { position: relative; }',
-    '.v2-intro-characters::before { content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:130%; height:130%; background:radial-gradient(ellipse at center, rgba(74,158,255,0.18) 0%, rgba(74,158,255,0.08) 35%, rgba(74,158,255,0.02) 55%, transparent 75%); z-index:1; pointer-events:none; }',
+    '.v2-intro-characters::before { content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:130%; aspect-ratio:1; background:radial-gradient(ellipse at center, rgba(74,158,255,0.18) 0%, rgba(74,158,255,0.08) 35%, rgba(74,158,255,0.02) 55%, transparent 75%); z-index:1; pointer-events:none; }',
     '/* Intro characters: ground shadow under feet — matches prototype .intro-characters::after */',
     '.v2-intro-characters::after { content:""; position:absolute; bottom:22%; left:10%; width:70%; height:30px; background:radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, transparent 70%); z-index:1; filter:blur(10px); pointer-events:none; }',
     '/* Characters section-desc: white on dark bg to match prototype */',
