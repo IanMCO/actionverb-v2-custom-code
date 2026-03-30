@@ -271,10 +271,7 @@ function smoothScrollTo(selector) {
 
     layers.forEach(layer => {
       const speed = parseFloat(layer.getAttribute('data-parallax-speed'));
-      const needsCenterX = layer.classList.contains('v2-hero-layer-jack') || layer.classList.contains('v2-hero-layer-wordmark');
-      layer.style.transform = needsCenterX
-        ? `translateX(-50%) translateY(${y * speed}px)`
-        : `translateY(${y * speed}px)`;
+      layer.style.transform = `translateY(${y * speed}px)`;
     });
   }
 
