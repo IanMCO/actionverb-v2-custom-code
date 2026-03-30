@@ -65,7 +65,71 @@
     '#characters .v2-section-desc { color: rgba(255,255,255,0.6); }',
     '/* Character carousel smooth transitions */',
     '.v2-char-slot { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }',
-    '.v2-char-img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); }'
+    '.v2-char-img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); }',
+    '',
+    '/* ==================== BOOKS SECTION FIXES ==================== */',
+    '/* Books section position for fade overlays */',
+    '.v2-books-section { position: relative; overflow: hidden; }',
+    '',
+    '/* --- Book card: dark background, rarity border, rounded corners --- */',
+    '.v2-book-card { background: #08080e !important; border-radius: 10px !important; border: 2px solid rgba(120,115,100,0.15) !important; box-shadow: inset 0 0 0 1px rgba(120,115,100,0.08), 0 6px 24px rgba(0,0,0,0.4) !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s !important; }',
+    '',
+    '/* --- Rarity border colors per book --- */',
+    '.v2-book-card:nth-child(1) { border-color: rgba(180,180,200,0.2) !important; box-shadow: inset 0 0 0 1px rgba(180,180,200,0.08), 0 6px 24px rgba(0,0,0,0.4) !important; }',
+    '.v2-book-card:nth-child(2) { border-color: rgba(74,158,255,0.2) !important; box-shadow: inset 0 0 0 1px rgba(74,158,255,0.08), 0 6px 24px rgba(0,0,0,0.4) !important; }',
+    '.v2-book-card:nth-child(3) { border-color: rgba(46,204,113,0.2) !important; box-shadow: inset 0 0 0 1px rgba(46,204,113,0.08), 0 6px 24px rgba(0,0,0,0.4) !important; }',
+    '.v2-book-card:nth-child(4) { border-color: rgba(194,58,34,0.25) !important; box-shadow: inset 0 0 0 1px rgba(194,58,34,0.1), 0 6px 24px rgba(0,0,0,0.4) !important; }',
+    '',
+    '/* --- Hover: lift + rarity glow --- */',
+    '.v2-book-card:hover { transform: translateY(-10px) scale(1.02) !important; }',
+    '.v2-book-card:nth-child(1):hover { border-color: rgba(180,180,200,0.35) !important; box-shadow: inset 0 0 0 1px rgba(180,180,200,0.12), 0 24px 60px rgba(0,0,0,0.7), 0 0 30px rgba(180,180,200,0.08) !important; }',
+    '.v2-book-card:nth-child(2):hover { border-color: rgba(74,158,255,0.35) !important; box-shadow: inset 0 0 0 1px rgba(74,158,255,0.12), 0 24px 60px rgba(0,0,0,0.7), 0 0 30px rgba(74,158,255,0.1) !important; }',
+    '.v2-book-card:nth-child(3):hover { border-color: rgba(46,204,113,0.3) !important; box-shadow: inset 0 0 0 1px rgba(46,204,113,0.1), 0 24px 60px rgba(0,0,0,0.7), 0 0 30px rgba(46,204,113,0.08) !important; }',
+    '.v2-book-card:nth-child(4):hover { border-color: rgba(194,58,34,0.4) !important; box-shadow: inset 0 0 0 1px rgba(194,58,34,0.12), 0 24px 60px rgba(0,0,0,0.7), 0 0 30px rgba(194,58,34,0.12) !important; }',
+    '',
+    '/* --- Card frame: expand outward for more breathing room --- */',
+    '.v2-card-frame { inset: -14px !important; }',
+    '',
+    '/* --- Badge styling: dark bg, glowing colored text (prototype match) --- */',
+    '.v2-badge-available { background: rgba(20,40,20,0.85) !important; color: #5eff9e !important; border: 1px solid rgba(46,204,113,0.4) !important; text-shadow: 0 0 6px rgba(46,204,113,0.4), 0 1px 3px rgba(0,0,0,0.9) !important; box-shadow: inset 0 1px 0 rgba(46,204,113,0.1), 0 2px 6px rgba(0,0,0,0.5) !important; border-radius: 3px !important; }',
+    '.v2-badge-preorder { background: rgba(50,15,12,0.9) !important; color: #ff7b6a !important; border: 1px solid rgba(194,58,34,0.5) !important; text-shadow: 0 0 6px rgba(194,58,34,0.4), 0 1px 3px rgba(0,0,0,0.9) !important; box-shadow: inset 0 1px 0 rgba(194,58,34,0.1), 0 2px 6px rgba(0,0,0,0.5) !important; border-radius: 3px !important; animation: preorderPulse 2.5s ease-in-out infinite !important; }',
+    '@keyframes preorderPulse { 0%, 100% { box-shadow: inset 0 1px 0 rgba(194,58,34,0.1), 0 2px 6px rgba(0,0,0,0.5), 0 0 8px rgba(194,58,34,0.2); } 50% { box-shadow: inset 0 1px 0 rgba(194,58,34,0.1), 0 2px 6px rgba(0,0,0,0.5), 0 0 16px rgba(194,58,34,0.4); } }',
+    '',
+    '/* --- Book info plate: dark bg, padding, centered, rarity accent line --- */',
+    '.v2-book-info { background: #08080e !important; padding: 16px 14px 14px !important; text-align: center !important; flex-grow: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; position: relative !important; }',
+    '.v2-book-info::before { content: "" !important; position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; height: 1px !important; pointer-events: none !important; }',
+    '.v2-book-card:nth-child(1) .v2-book-info::before { background: linear-gradient(90deg, transparent, rgba(180,180,200,0.25), transparent) !important; }',
+    '.v2-book-card:nth-child(2) .v2-book-info::before { background: linear-gradient(90deg, transparent, rgba(74,158,255,0.3), transparent) !important; }',
+    '.v2-book-card:nth-child(3) .v2-book-info::before { background: linear-gradient(90deg, transparent, rgba(46,204,113,0.25), transparent) !important; }',
+    '.v2-book-card:nth-child(4) .v2-book-info::before { background: linear-gradient(90deg, transparent, rgba(194,58,34,0.3), transparent) !important; }',
+    '',
+    '/* --- Book number rarity colors --- */',
+    '.v2-book-card:nth-child(1) .v2-book-number { color: rgba(180,180,200,0.6) !important; }',
+    '.v2-book-card:nth-child(2) .v2-book-number { color: rgba(74,158,255,0.5) !important; }',
+    '.v2-book-card:nth-child(3) .v2-book-number { color: rgba(46,204,113,0.5) !important; }',
+    '.v2-book-card:nth-child(4) .v2-book-number { color: rgba(194,58,34,0.6) !important; }',
+    '',
+    '/* --- CTA button: bordered, subtle bg, rarity-tinted --- */',
+    '.v2-book-cta { padding: 10px 16px !important; border-radius: 4px !important; background: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.06) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; margin-top: auto !important; transition: gap 0.3s, color 0.3s, background 0.3s !important; }',
+    '.v2-book-card:nth-child(1) .v2-book-cta { border-color: rgba(180,180,200,0.12) !important; }',
+    '.v2-book-card:nth-child(2) .v2-book-cta { border-color: rgba(74,158,255,0.12) !important; }',
+    '.v2-book-card:nth-child(3) .v2-book-cta { border-color: rgba(46,204,113,0.1) !important; }',
+    '.v2-book-card:nth-child(4) .v2-book-cta { border-color: rgba(194,58,34,0.15) !important; color: #ff7b6a !important; }',
+    '.v2-book-card:hover .v2-book-cta { gap: 12px !important; background: rgba(255,255,255,0.05) !important; }',
+    '',
+    '/* --- Available On: larger sizing to match prototype --- */',
+    '.v2-available-on { margin-top: 80px !important; }',
+    '.v2-available-on-label { font-size: 14px !important; letter-spacing: 3px !important; margin-bottom: 30px !important; }',
+    '.v2-available-on-logos { gap: 50px !important; }',
+    '.v2-available-on-logos img { height: 50px !important; }',
+    '.v2-available-on-logos .v2-ao-text { font-size: 18px !important; letter-spacing: 2px !important; }',
+    '',
+    '/* --- Books section fade gradients (top + bottom) --- */',
+    '.v2-books-top-fade { position: absolute; top: 0; left: 0; width: 100%; height: 400px; background: linear-gradient(to top, rgba(13,13,22,0) 0%, rgba(13,13,22,1) 100%); z-index: 4; pointer-events: none; }',
+    '.v2-books-bottom-fade { position: absolute; bottom: 0; left: 0; width: 100%; height: 400px; background: linear-gradient(to bottom, rgba(13,13,22,0) 0%, rgba(13,13,22,1) 100%); z-index: 4; pointer-events: none; }',
+    '',
+    '/* --- Books background texture: swap halftone for dirty texture with mask fade --- */',
+    '.v2-books-bg { background-image: url(https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f/69c9c02e5f622a639649f85c_dirty-grunge-texture.webp) !important; background-size: cover !important; background-position: center center !important; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%) !important; mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%) !important; }'
   ].join('\n');
   document.head.appendChild(style);
 })();
@@ -444,6 +508,33 @@ function smoothScrollTo(selector) {
     document.addEventListener('DOMContentLoaded', injectIntroFade);
   } else {
     injectIntroFade();
+  }
+})();
+
+// --- BOOKS SECTION FADE GRADIENTS INJECT ---
+// Injects top and bottom gradient divs on the books section to blend
+// seamlessly into the grunge divider elements above and below.
+(function() {
+  function injectBooksFades() {
+    var books = document.getElementById('books');
+    if (!books) return;
+    if (!books.querySelector('.v2-books-top-fade')) {
+      var topFade = document.createElement('div');
+      topFade.className = 'v2-books-top-fade';
+      topFade.setAttribute('data-fade', 'books-top');
+      books.insertBefore(topFade, books.firstChild);
+    }
+    if (!books.querySelector('.v2-books-bottom-fade')) {
+      var bottomFade = document.createElement('div');
+      bottomFade.className = 'v2-books-bottom-fade';
+      bottomFade.setAttribute('data-fade', 'books-bottom');
+      books.appendChild(bottomFade);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectBooksFades);
+  } else {
+    injectBooksFades();
   }
 })();
 
