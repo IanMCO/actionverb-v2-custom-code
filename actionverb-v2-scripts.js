@@ -313,10 +313,8 @@ function smoothScrollTo(selector) {
 // --- CHARACTER SELECTOR CAROUSEL ---
 (function() {
   function initCarousel() {
-  console.log('[CAROUSEL] initCarousel called, readyState:', document.readyState);
   const charSlots = document.querySelectorAll('.v2-char-slot');
-  console.log('[CAROUSEL] charSlots found:', charSlots.length);
-  if (!charSlots.length) { console.log('[CAROUSEL] EARLY EXIT - no slots'); return; }
+  if (!charSlots.length) return;
   const charGlow = document.querySelector('.v2-char-glow');  const positions = ['left', 'center', 'right'];
   let charOrder = ['hannah', 'jack', 'sam'];
 
@@ -341,7 +339,6 @@ function smoothScrollTo(selector) {
     applyPositions();
   }
 
-  console.log('[CAROUSEL] Setting up selectCharacter and event listeners');
   window.selectCharacter = function(charName) {
     const currentCenter = charOrder[1];
     if (charName === currentCenter) {
@@ -366,14 +363,10 @@ function smoothScrollTo(selector) {
     if (e.key === 'ArrowLeft') rotate(-1);
     if (e.key === 'ArrowRight') rotate(1);
   });
-  console.log('[CAROUSEL] initCarousel complete, selectCharacter type:', typeof window.selectCharacter);
   } // end initCarousel
-  console.log('[CAROUSEL] IIFE running, readyState:', document.readyState);
   if (document.readyState === 'loading') {
-    console.log('[CAROUSEL] Adding DOMContentLoaded listener');
     document.addEventListener('DOMContentLoaded', initCarousel);
   } else {
-    console.log('[CAROUSEL] Calling initCarousel directly');
     initCarousel();
   }
 })();
