@@ -312,6 +312,7 @@ function smoothScrollTo(selector) {
 
 // --- CHARACTER SELECTOR CAROUSEL ---
 (function() {
+  function initCarousel() {
   const charSlots = document.querySelectorAll('.v2-char-slot');
   if (!charSlots.length) return;
   const charGlow = document.querySelector('.v2-char-glow');  const positions = ['left', 'center', 'right'];
@@ -357,6 +358,12 @@ function smoothScrollTo(selector) {
     if (e.key === 'ArrowLeft') rotate(-1);
     if (e.key === 'ArrowRight') rotate(1);
   });
+  } // end initCarousel
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousel);
+  } else {
+    initCarousel();
+  }
 })();
 
 // --- ACCENT COLOR SPANS ---
