@@ -404,13 +404,22 @@ function smoothScrollTo(selector) {
 
 // --- SCROLL INDICATOR HIDE ---
 (function() {
-  var indicator = document.getElementById('scrollIndicator');
-  if (!indicator) return;
-  window.addEventListener('scroll', function() {
-    if (window.scrollY > 100) {
-      indicator.classList.add('hidden');
-    } else {
-      indicator.classList.remove('hidden');
-    }
-  });
+  function setupIndicator() {
+    var indicator = document.getElementById('scrollIndicator');
+    if (!indicator) return;
+    // Replace Webflow placeholder text with actual scroll indicator content
+    indicator.innerHTML = '<span style="font-family:JetBrains Mono,monospace;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5);">Scroll to Explore</span><span style="display:block;margin-top:4px;font-size:0.8rem;color:rgba(255,255,255,0.4);">&#9661;</span>';
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 100) {
+        indicator.classList.add('hidden');
+      } else {
+        indicator.classList.remove('hidden');
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupIndicator);
+  } else {
+    setupIndicator();
+  }
 })();
