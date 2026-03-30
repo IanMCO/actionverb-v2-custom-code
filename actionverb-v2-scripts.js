@@ -58,21 +58,32 @@
 // --- HERO BACKGROUND VIDEO INJECT ---
 // Webflow element_builder can't create <video> elements, so inject via JS
 (function() {
-  var bgLayer = document.querySelector('.v2-hero-layer-bg');
-  if (!bgLayer) return;
-  var video = document.createElement('video');
-  video.autoplay = true;
-  video.muted = true;
-  video.loop = true;
-  video.playsInline = true;
-  video.setAttribute('playsinline', '');
-  var source = document.createElement('source');
-  source.src = 'https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f/65c7f5e27393895d5fe69906_TOJBackground.png';
-  // NOTE: The original site uses a static background image since no video asset exists.
-  // Replace source.src with the actual video URL when available.
-  // For now, set a background image fallback:  bgLayer.style.backgroundImage = 'url(https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f/65c7f5e27393895d5fe69906_TOJBackground.png)';
-  bgLayer.style.backgroundSize = 'cover';
-  bgLayer.style.backgroundPosition = 'center';
+  function injectVideo() {
+    var bgLayer = document.querySelector('.v2-hero-layer-bg');
+    if (!bgLayer) return;
+    // Set poster image as fallback
+    bgLayer.style.backgroundImage = 'url(https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f/65c7f5e27393895d5fe69906_TOJBackground.png)';
+    bgLayer.style.backgroundSize = 'cover';
+    bgLayer.style.backgroundPosition = 'center';
+    // Inject actual video
+    var video = document.createElement('video');
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.style.cssText = 'position:absolute;top:50%;left:50%;width:100%;height:100%;transform:translate(-50%,-50%);object-fit:cover;';
+    var source = document.createElement('source');
+    source.src = 'https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f%2F66cb86f2447baaa8b65c0931_Gen-3%20Alpha%204137148992%2C%20no%20camera%20movement%20%2C%2065c7f5e27393895d5fe6-transcode.mp4';
+    source.type = 'video/mp4';
+    video.appendChild(source);
+    bgLayer.appendChild(video);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectVideo);
+  } else {
+    injectVideo();
+  }
 })();
 
 // --- SMOOTH SCROLL ---
