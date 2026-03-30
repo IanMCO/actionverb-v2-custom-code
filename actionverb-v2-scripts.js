@@ -62,6 +62,8 @@
     '.v2-intro-characters::before { content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:130%; aspect-ratio:1; background:radial-gradient(ellipse at center, rgba(74,158,255,0.18) 0%, rgba(74,158,255,0.08) 35%, rgba(74,158,255,0.02) 55%, transparent 75%); z-index:1; pointer-events:none; }',
     '/* Intro characters: ground shadow under feet — matches prototype .intro-characters::after */',
     '.v2-intro-characters::after { content:""; position:absolute; bottom:22%; left:10%; width:70%; height:30px; background:radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, transparent 70%); z-index:1; filter:blur(10px); pointer-events:none; }',
+    '/* Intro characters: image sits above glow — matches prototype img { position:relative; z-index:2 } */',
+    '.v2-intro-characters img { position: relative; z-index: 2; }',
     '/* Characters section-desc: white on dark bg to match prototype */',
     '#characters .v2-section-desc { color: rgba(255,255,255,0.6); }',
     '/* Character carousel smooth transitions */',
