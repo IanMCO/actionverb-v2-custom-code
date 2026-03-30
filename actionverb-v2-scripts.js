@@ -6,53 +6,64 @@
  */
 
 // --- ACCENT COLOR SPANS (matches HTML prototype) ---
+// Uses DOMContentLoaded + small delay to ensure Webflow renders elements first
 (function() {
-  // Helper: wrap a word inside a text node with a colored span
-  function colorWord(el, word, color) {
-    if (!el) return;
-    const html = el.innerHTML;
-    const regex = new RegExp('(' + word + ')', 'i');
-    if (regex.test(html) && !html.includes('<span')) {
-      el.innerHTML = html.replace(regex, '<span style="color:' + color + '">$1</span>');
+  function applyAccentColors() {
+    function colorWord(el, word, color) {
+      if (!el) return;
+      var html = el.innerHTML;
+      var regex = new RegExp('(' + word + ')', 'i');
+      if (regex.test(html) && !html.includes('<span')) {
+        el.innerHTML = html.replace(regex, '<span style="color:' + color + '">$1</span>');
+      }
+    }
+
+    // Intro: "Welcome to the TOWER" — gold on Tower
+    var introTitle = document.querySelector('#intro .v2-section-title');
+    colorWord(introTitle, 'Tower', '#d4a843');
+
+    // Books: "Dramatic SHENANIGANS" — gold on Shenanigans
+    var booksTitle = document.querySelector('#books .v2-section-title');
+    colorWord(booksTitle, 'Shenanigans', '#d4a843');
+
+    // Newsletter: "Survive the NEWSLETTER" — blue on Newsletter
+    var nlTitle = document.querySelector('.v2-newsletter-title');
+    colorWord(nlTitle, 'Newsletter', '#4a9eff');
+
+    // Characters: "The Problem CHILDREN" — red on Children
+    var charTitle = document.querySelector('#characters .v2-section-title');
+    colorWord(charTitle, 'Children', '#e74c3c');
+
+    // Contact: "SHOUT Into The Void (sack)" — red on Shout + small dark (sack)
+    var contactTitle = document.querySelector('.v2-contact-section .v2-section-title');
+    if (contactTitle) {
+      var ct = contactTitle.innerHTML;
+      if (!ct.includes('<span')) {
+        contactTitle.innerHTML = ct
+          .replace(/(Shout)/i, '<span style="color:#c23a22">$1</span>')
+          .replace(/(\(sack\))/i, '<span style="color:#111;font-size:0.5em;vertical-align:baseline;">$1</span>');
+      }
+    }
+
+    // Spotlight: strikethrough on never, red on ALWAYS
+    var spotTitle = document.querySelector('.v2-spotlight-title');
+    if (spotTitle) {
+      var st = spotTitle.innerHTML;
+      if (!st.includes('<span')) {
+        spotTitle.innerHTML = st
+          .replace(/(never)/i, '<span style="text-decoration:line-through;color:#9a9a9a;opacity:0.5;font-size:0.7em;position:relative;">$1</span>')
+          .replace(/(ALWAYS)/i, '<span style="color:#e74c3c;font-style:italic;">$1</span>');
+      }
     }
   }
 
-  // Intro: "Welcome to the TOWER" — gold on Tower
-  var introTitle = document.querySelector('#intro .v2-section-title');
-  colorWord(introTitle, 'Tower', '#d4a843');
-
-  // Books: "Dramatic SHENANIGANS" — gold on Shenanigans
-  var booksTitle = document.querySelector('#books .v2-section-title');
-  colorWord(booksTitle, 'Shenanigans', '#d4a843');
-
-  // Newsletter: "Survive the NEWSLETTER" — blue on Newsletter
-  var nlTitle = document.querySelector('.v2-newsletter-title');
-  colorWord(nlTitle, 'Newsletter', '#4a9eff');
-
-  // Characters: "The Problem CHILDREN" — red on Children
-  var charTitle = document.querySelector('#characters .v2-section-title');
-  colorWord(charTitle, 'Children', '#e74c3c');
-
-  // Contact: "SHOUT Into The Void (sack)" — red on Shout + small dark (sack)
-  var contactTitle = document.querySelector('.v2-contact-section .v2-section-title');
-  if (contactTitle) {
-    var ct = contactTitle.innerHTML;
-    if (!ct.includes('<span')) {
-      contactTitle.innerHTML = ct
-        .replace(/(Shout)/i, '<span style="color:#c23a22">$1</span>')
-        .replace(/(\(sack\))/i, '<span style="color:#111;font-size:0.5em;vertical-align:baseline;">$1</span>');
-    }
-  }
-
-  // Spotlight: "Cheaters ~~never~~ ALWAYS Prosper." — strikethrough on never, red on ALWAYS
-  var spotTitle = document.querySelector('.v2-spotlight-title');
-  if (spotTitle) {
-    var st = spotTitle.innerHTML;
-    if (!st.includes('<span')) {
-      spotTitle.innerHTML = st
-        .replace(/(never)/i, '<span style="text-decoration:line-through;color:#9a9a9a;opacity:0.5;font-size:0.7em;position:relative;">$1</span>')
-        .replace(/(ALWAYS)/i, '<span style="color:#e74c3c;font-style:italic;">$1</span>');
-    }
+  // Run after DOM is ready + small delay for Webflow rendering
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(applyAccentColors, 100);
+    });
+  } else {
+    setTimeout(applyAccentColors, 100);
   }
 })();
 
