@@ -1,70 +1,62 @@
 /**
  * ActionVerb Writing V2 — Consolidated Scripts
- * Homepage interactions: nav scroll, reveal animations, countdown,
- * particle systems (nav + footer), character carousel.
+ * Homepage interactions: hero parallax, nav scroll, reveal animations,
+ * countdown, particle systems (nav + footer), character carousel,
+ * accent color spans, lightning flash animation.
  * Hosted on GitHub (IanMCO), loaded via Webflow external script.
  */
 
-// --- ACCENT COLOR SPANS (matches HTML prototype) ---
-// Uses DOMContentLoaded + small delay to ensure Webflow renders elements first
+// --- HERO DOM REORDER ---
+// Webflow element_builder can only append/prepend. Move hero to correct position.
 (function() {
-  function applyAccentColors() {
-    function colorWord(el, word, color) {
-      if (!el) return;
-      var html = el.innerHTML;
-      var regex = new RegExp('(' + word + ')', 'i');
-      if (regex.test(html) && !html.includes('<span')) {
-        el.innerHTML = html.replace(regex, '<span style="color:' + color + '">$1</span>');
-      }
-    }
-
-    // Intro: "Welcome to the TOWER" — gold on Tower
-    var introTitle = document.querySelector('#intro .v2-section-title');
-    colorWord(introTitle, 'Tower', '#d4a843');
-
-    // Books: "Dramatic SHENANIGANS" — gold on Shenanigans
-    var booksTitle = document.querySelector('#books .v2-section-title');
-    colorWord(booksTitle, 'Shenanigans', '#d4a843');
-
-    // Newsletter: "Survive the NEWSLETTER" — blue on Newsletter
-    var nlTitle = document.querySelector('.v2-newsletter-title');
-    colorWord(nlTitle, 'Newsletter', '#4a9eff');
-
-    // Characters: "The Problem CHILDREN" — red on Children
-    var charTitle = document.querySelector('#characters .v2-section-title');
-    colorWord(charTitle, 'Children', '#e74c3c');
-
-    // Contact: "SHOUT Into The Void (sack)" — red on Shout + small dark (sack)
-    var contactTitle = document.querySelector('.v2-contact-section .v2-section-title');
-    if (contactTitle) {
-      var ct = contactTitle.innerHTML;
-      if (!ct.includes('<span')) {
-        contactTitle.innerHTML = ct
-          .replace(/(Shout)/i, '<span style="color:#c23a22">$1</span>')
-          .replace(/(\(sack\))/i, '<span style="color:#111;font-size:0.5em;vertical-align:baseline;">$1</span>');
-      }
-    }
-
-    // Spotlight: strikethrough on never, red on ALWAYS
-    var spotTitle = document.querySelector('.v2-spotlight-title');
-    if (spotTitle) {
-      var st = spotTitle.innerHTML;
-      if (!st.includes('<span')) {
-        spotTitle.innerHTML = st
-          .replace(/(never)/i, '<span style="text-decoration:line-through;color:#9a9a9a;opacity:0.5;font-size:0.7em;position:relative;">$1</span>')
-          .replace(/(ALWAYS)/i, '<span style="color:#e74c3c;font-style:italic;">$1</span>');
-      }
-    }
+  var hero = document.getElementById('hero');
+  var nav = document.getElementById('mainNav');
+  if (hero && nav && nav.parentNode) {
+    // Insert hero right after the nav
+    nav.parentNode.insertBefore(hero, nav.nextSibling);
   }
+})();
 
-  // Run after DOM is ready + small delay for Webflow rendering
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(applyAccentColors, 100);
-    });
-  } else {
-    setTimeout(applyAccentColors, 100);
-  }
+// --- INJECT HERO ANIMATIONS (CSS) ---
+(function() {
+  var style = document.createElement('style');
+  style.textContent = [
+    '@keyframes lightningFlash {',
+    '  0%, 92%, 100% { opacity: 0; }',
+    '  93% { opacity: 1; }',
+    '  94% { opacity: 0.15; }',
+    '  95% { opacity: 0.7; }',
+    '  96% { opacity: 0; }',    '}',
+    '@keyframes scrollBounce {',
+    '  0%, 100% { transform: translateY(0); }',
+    '  50% { transform: translateY(6px); }',
+    '}',
+    '.v2-hero-flash { animation: lightningFlash 7s infinite; }',
+    '.v2-scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; transition: opacity 0.5s; }',
+    '.v2-scroll-indicator.hidden { opacity: 0; pointer-events: none; }',
+    '.v2-hero-layer-bg video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; transform: translate(-50%,-50%); object-fit: cover; }'
+  ].join('\n');
+  document.head.appendChild(style);
+})();
+
+// --- HERO BACKGROUND VIDEO INJECT ---
+// Webflow element_builder can't create <video> elements, so inject via JS
+(function() {
+  var bgLayer = document.querySelector('.v2-hero-layer-bg');
+  if (!bgLayer) return;
+  var video = document.createElement('video');
+  video.autoplay = true;
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.setAttribute('playsinline', '');
+  var source = document.createElement('source');
+  source.src = 'https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f/65c7f5e27393895d5fe69906_TOJBackground.png';
+  // NOTE: The original site uses a static background image since no video asset exists.
+  // Replace source.src with the actual video URL when available.
+  // For now, set a background image fallback:  bgLayer.style.backgroundImage = 'url(https://cdn.prod.website-files.com/65c7f5214a5f8f6a0e59030f/65c7f5e27393895d5fe69906_TOJBackground.png)';
+  bgLayer.style.backgroundSize = 'cover';
+  bgLayer.style.backgroundPosition = 'center';
 })();
 
 // --- SMOOTH SCROLL ---
@@ -90,8 +82,7 @@ function scrollTo(selector) {
 (function() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+      if (entry.isIntersecting) {        entry.target.classList.add('visible');
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
@@ -120,8 +111,7 @@ function scrollTo(selector) {
     const secs  = Math.floor((diff % 60000) / 1000);
 
     els[0].textContent = String(days).padStart(2, '0');
-    els[1].textContent = String(hours).padStart(2, '0');
-    els[2].textContent = String(mins).padStart(2, '0');
+    els[1].textContent = String(hours).padStart(2, '0');    els[2].textContent = String(mins).padStart(2, '0');
     els[3].textContent = String(secs).padStart(2, '0');
   }
 
@@ -149,8 +139,7 @@ function scrollTo(selector) {
     constructor() { this.reset(true); }
     reset(init) {
       this.x = Math.random() * W;
-      this.y = init ? Math.random() * H : -Math.random() * 10;
-      this.size = Math.random() * 1.8 + 0.4;
+      this.y = init ? Math.random() * H : -Math.random() * 10;      this.size = Math.random() * 1.8 + 0.4;
       this.speedX = (Math.random() - 0.5) * 0.25;
       this.speedY = Math.random() * 0.4 + 0.15;
       this.baseOpacity = Math.random() * 0.4 + 0.1;
@@ -178,8 +167,7 @@ function scrollTo(selector) {
       ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
       ctx.fillStyle = `hsla(${this.hue}, 80%, 72%, ${this.opacity * 0.12})`;
       ctx.fill();
-    }
-  }
+    }  }
 
   function init() { resize(); pts = []; for (let i = 0; i < COUNT; i++) pts.push(new Particle()); }
   function animate() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
@@ -207,8 +195,7 @@ function scrollTo(selector) {
     constructor() { this.reset(true); }
     reset(init) {
       this.x = Math.random() * W;
-      this.y = init ? Math.random() * H : H + Math.random() * 20;
-      this.size = Math.random() * 2.2 + 0.6;
+      this.y = init ? Math.random() * H : H + Math.random() * 20;      this.size = Math.random() * 2.2 + 0.6;
       this.speedX = (Math.random() - 0.5) * 0.35;
       this.speedY = -Math.random() * 0.6 - 0.2;
       this.baseOpacity = Math.random() * 0.5 + 0.15;
@@ -236,8 +223,7 @@ function scrollTo(selector) {
       ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
       ctx.fillStyle = `hsla(${this.hue}, 80%, 72%, ${this.opacity * 0.12})`;
       ctx.fill();
-    }
-  }
+    }  }
 
   function init() { resize(); pts = []; for (let i = 0; i < COUNT; i++) pts.push(new Particle()); }
   function animate() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
@@ -252,21 +238,20 @@ function scrollTo(selector) {
 
   function update() {
     const y = window.scrollY;
-    const hero = document.querySelector('.hero');
+    const hero = document.getElementById('hero');
     if (!hero) return;
     if (y > hero.offsetHeight * 1.2) return;
 
     layers.forEach(layer => {
       const speed = parseFloat(layer.getAttribute('data-parallax-speed'));
-      const needsCenterX = layer.classList.contains('hero-layer-jack') || layer.classList.contains('hero-layer-wordmark');
+      const needsCenterX = layer.classList.contains('v2-hero-layer-jack') || layer.classList.contains('v2-hero-layer-wordmark');
       layer.style.transform = needsCenterX
         ? `translateX(-50%) translateY(${y * speed}px)`
         : `translateY(${y * speed}px)`;
     });
   }
 
-  window.addEventListener('scroll', update, { passive: true });
-  update();
+  window.addEventListener('scroll', update, { passive: true });  update();
 })();
 
 // --- SECTION TEXTURE PARALLAX ---
@@ -294,8 +279,7 @@ function scrollTo(selector) {
 (function() {
   const charSlots = document.querySelectorAll('.char-slot');
   if (!charSlots.length) return;
-  const charGlow = document.querySelector('.char-glow');
-  const positions = ['left', 'center', 'right'];
+  const charGlow = document.querySelector('.char-glow');  const positions = ['left', 'center', 'right'];
   let charOrder = ['hannah', 'jack', 'sam'];
 
   function applyPositions() {
@@ -324,7 +308,6 @@ function scrollTo(selector) {
     if (idx === 0) rotate(-1);
     if (idx === 2) rotate(1);
   };
-
   applyPositions();
 
   // Arrow button clicks
@@ -338,5 +321,69 @@ function scrollTo(selector) {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') rotate(-1);
     if (e.key === 'ArrowRight') rotate(1);
+  });
+})();
+
+// --- ACCENT COLOR SPANS ---
+// Webflow can't create inline spans inside headings. Runtime DOM manipulation.
+(function() {
+  function applyAccentColors() {
+    function colorWord(el, word, color) {
+      if (!el) return;
+      var html = el.innerHTML;
+      var regex = new RegExp('(' + word + ')', 'i');
+      if (regex.test(html) && !html.includes('<span')) {
+        el.innerHTML = html.replace(regex, '<span style="color:' + color + '">$1</span>');
+      }
+    }    var introTitle = document.querySelector('#intro .v2-section-title');
+    colorWord(introTitle, 'Tower', '#d4a843');
+    var booksTitle = document.querySelector('#books .v2-section-title');
+    colorWord(booksTitle, 'Shenanigans', '#d4a843');
+    var nlTitle = document.querySelector('.v2-newsletter-title');
+    colorWord(nlTitle, 'Newsletter', '#4a9eff');
+    var charTitle = document.querySelector('#characters .v2-section-title');
+    colorWord(charTitle, 'Children', '#e74c3c');
+
+    // Contact: red on Shout + small dark (sack)
+    var contactTitle = document.querySelector('.v2-contact-section .v2-section-title');
+    if (contactTitle) {
+      var ct = contactTitle.innerHTML;
+      if (!ct.includes('<span')) {
+        contactTitle.innerHTML = ct
+          .replace(/(Shout)/i, '<span style="color:#c23a22">$1</span>')
+          .replace(/(\(sack\))/i, '<span style="color:#111;font-size:0.5em;vertical-align:baseline;">$1</span>');
+      }
+    }
+
+    // Spotlight: strikethrough on never, red on ALWAYS
+    var spotTitle = document.querySelector('.v2-spotlight-title');
+    if (spotTitle) {
+      var st = spotTitle.innerHTML;
+      if (!st.includes('<span')) {
+        spotTitle.innerHTML = st
+          .replace(/(never)/i, '<span style="text-decoration:line-through;color:#9a9a9a;opacity:0.5;font-size:0.7em;position:relative;">$1</span>')
+          .replace(/(ALWAYS)/i, '<span style="color:#e74c3c;font-style:italic;">$1</span>');
+      }    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(applyAccentColors, 200);
+    });
+  } else {
+    setTimeout(applyAccentColors, 200);
+  }
+})();
+
+// --- SCROLL INDICATOR HIDE ---
+(function() {
+  var indicator = document.getElementById('scrollIndicator');
+  if (!indicator) return;
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 100) {
+      indicator.classList.add('hidden');
+    } else {
+      indicator.classList.remove('hidden');
+    }
   });
 })();
