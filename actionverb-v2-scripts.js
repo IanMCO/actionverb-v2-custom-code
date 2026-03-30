@@ -312,9 +312,9 @@ function smoothScrollTo(selector) {
 
 // --- CHARACTER SELECTOR CAROUSEL ---
 (function() {
-  const charSlots = document.querySelectorAll('.char-slot');
+  const charSlots = document.querySelectorAll('.v2-char-slot');
   if (!charSlots.length) return;
-  const charGlow = document.querySelector('.char-glow');  const positions = ['left', 'center', 'right'];
+  const charGlow = document.querySelector('.v2-char-glow');  const positions = ['left', 'center', 'right'];
   let charOrder = ['hannah', 'jack', 'sam'];
 
   function applyPositions() {
@@ -346,9 +346,9 @@ function smoothScrollTo(selector) {
   applyPositions();
 
   // Arrow button clicks
-  document.querySelectorAll('.char-arrow').forEach(btn => {
+  document.querySelectorAll('.v2-char-arrow').forEach(btn => {
     btn.addEventListener('click', () => {
-      rotate(btn.classList.contains('char-arrow-right') ? 1 : -1);
+      rotate(btn.classList.contains('v2-char-arrow-right') ? 1 : -1);
     });
   });
 
