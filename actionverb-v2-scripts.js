@@ -35,7 +35,15 @@
     '.v2-scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; transition: opacity 0.5s; }',
     '.v2-scroll-indicator.hidden { opacity: 0; pointer-events: none; }',
     '.v2-hero-layer-bg video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; transform: translate(-50%,-50%); object-fit: cover; }',
-    '.v2-nav.visible { opacity: 1 !important; transform: translateY(0) !important; }'
+    '.v2-nav.visible { opacity: 1 !important; transform: translateY(0) !important; }',
+    '@keyframes char-breathe { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.015) translateY(-4px); } }',
+    '.v2-char-slot[data-position="center"] .v2-char-img { animation: char-breathe 3.5s ease-in-out infinite; }',
+    '.v2-char-glow { position:absolute; bottom:10%; left:50%; transform:translateX(-50%); width:400px; height:400px; border-radius:50%; pointer-events:none; z-index:2; transition:background 0.8s cubic-bezier(0.4,0,0.2,1); filter:blur(60px); }',
+    '.v2-char-glow[data-active="jack"] { background: rgba(180,210,255,0.2); }',
+    '.v2-char-glow[data-active="hannah"] { background: rgba(46,204,113,0.2); }',
+    '.v2-char-glow[data-active="sam"] { background: rgba(123,47,247,0.2); }',
+    '.v2-char-label { opacity:0; transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1) 0.2s, transform 0.6s cubic-bezier(0.4,0,0.2,1); transform:scale(0.6); }',
+    '.v2-char-slot[data-position="center"] .v2-char-label { opacity:1; transform:scale(1); }'
   ].join('\n');
   document.head.appendChild(style);
 })();
