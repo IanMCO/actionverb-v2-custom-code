@@ -56,7 +56,12 @@
     '/* Spotlight grunge noise texture */',
     '#spotlight .v2-spotlight-inner { z-index:3; }',
     '/* Spotlight ember edge glow */',
-    '#spotlight::before { content:""; position:absolute; inset:0; z-index:2; pointer-events:none; background: radial-gradient(ellipse at 0% 50%, rgba(194,58,34,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 50%, rgba(194,58,34,0.08) 0%, transparent 50%); }'
+    '#spotlight::before { content:""; position:absolute; inset:0; z-index:2; pointer-events:none; background: radial-gradient(ellipse at 0% 50%, rgba(194,58,34,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 50%, rgba(194,58,34,0.08) 0%, transparent 50%); }',
+    '/* Characters section-desc: white on dark bg to match prototype */',
+    '#characters .v2-section-desc { color: rgba(255,255,255,0.6); }',
+    '/* Character carousel smooth transitions */',
+    '.v2-char-slot { transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }',
+    '.v2-char-img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); }'
   ].join('\n');
   document.head.appendChild(style);
 })();
@@ -381,7 +386,7 @@ function smoothScrollTo(selector) {
       if (!ct.includes('<span')) {
         contactTitle.innerHTML = ct
           .replace(/(Shout)/i, '<span style="color:#c23a22">$1</span>')
-          .replace(/(\(sack\))/i, '<span style="color:#111;font-size:0.5em;vertical-align:baseline;">$1</span>');
+          .replace(/\(?(sack)\)?/i, ' <span style="color:#111;font-size:0.5em;vertical-align:baseline;">(sack)</span>');
       }
     }
 
