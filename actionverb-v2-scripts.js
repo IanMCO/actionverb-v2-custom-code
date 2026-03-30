@@ -5,6 +5,57 @@
  * Hosted on GitHub (IanMCO), loaded via Webflow external script.
  */
 
+// --- ACCENT COLOR SPANS (matches HTML prototype) ---
+(function() {
+  // Helper: wrap a word inside a text node with a colored span
+  function colorWord(el, word, color) {
+    if (!el) return;
+    const html = el.innerHTML;
+    const regex = new RegExp('(' + word + ')', 'i');
+    if (regex.test(html) && !html.includes('<span')) {
+      el.innerHTML = html.replace(regex, '<span style="color:' + color + '">$1</span>');
+    }
+  }
+
+  // Intro: "Welcome to the TOWER" — gold on Tower
+  var introTitle = document.querySelector('#intro .v2-section-title');
+  colorWord(introTitle, 'Tower', '#d4a843');
+
+  // Books: "Dramatic SHENANIGANS" — gold on Shenanigans
+  var booksTitle = document.querySelector('#books .v2-section-title');
+  colorWord(booksTitle, 'Shenanigans', '#d4a843');
+
+  // Newsletter: "Survive the NEWSLETTER" — blue on Newsletter
+  var nlTitle = document.querySelector('.v2-newsletter-title');
+  colorWord(nlTitle, 'Newsletter', '#4a9eff');
+
+  // Characters: "The Problem CHILDREN" — red on Children
+  var charTitle = document.querySelector('#characters .v2-section-title');
+  colorWord(charTitle, 'Children', '#e74c3c');
+
+  // Contact: "SHOUT Into The Void (sack)" — red on Shout + small dark (sack)
+  var contactTitle = document.querySelector('.v2-contact-section .v2-section-title');
+  if (contactTitle) {
+    var ct = contactTitle.innerHTML;
+    if (!ct.includes('<span')) {
+      contactTitle.innerHTML = ct
+        .replace(/(Shout)/i, '<span style="color:#c23a22">$1</span>')
+        .replace(/(\(sack\))/i, '<span style="color:#111;font-size:0.5em;vertical-align:baseline;">$1</span>');
+    }
+  }
+
+  // Spotlight: "Cheaters ~~never~~ ALWAYS Prosper." — strikethrough on never, red on ALWAYS
+  var spotTitle = document.querySelector('.v2-spotlight-title');
+  if (spotTitle) {
+    var st = spotTitle.innerHTML;
+    if (!st.includes('<span')) {
+      spotTitle.innerHTML = st
+        .replace(/(never)/i, '<span style="text-decoration:line-through;color:#9a9a9a;opacity:0.5;font-size:0.7em;position:relative;">$1</span>')
+        .replace(/(ALWAYS)/i, '<span style="color:#e74c3c;font-style:italic;">$1</span>');
+    }
+  }
+})();
+
 // --- SMOOTH SCROLL ---
 function scrollTo(selector) {
   const el = document.querySelector(selector);
@@ -16,6 +67,7 @@ function scrollTo(selector) {
   const nav = document.getElementById('mainNav');
   const heroEl = document.getElementById('hero');
   if (!nav || !heroEl) return;
+
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const heroBottom = heroEl.offsetHeight * 0.85;
@@ -25,12 +77,14 @@ function scrollTo(selector) {
 
 // --- REVEAL ON SCROLL ---
 (function() {
-  const observer = new IntersectionObserver((entries) => {    entries.forEach(entry => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 })();
 
@@ -39,22 +93,31 @@ function scrollTo(selector) {
   const ids = ['cd-days', 'cd-hours', 'cd-mins', 'cd-secs'];
   const els = ids.map(id => document.getElementById(id));
   if (els.some(e => !e)) return;
+
   function update() {
     const target = new Date('2026-04-29T00:00:00-05:00').getTime();
     const diff = target - Date.now();
-    if (diff <= 0) { els.forEach(e => e.textContent = '00'); return; }
+
+    if (diff <= 0) {
+      els.forEach(e => e.textContent = '00');
+      return;
+    }
+
     const days  = Math.floor(diff / 86400000);
     const hours = Math.floor((diff % 86400000) / 3600000);
     const mins  = Math.floor((diff % 3600000) / 60000);
     const secs  = Math.floor((diff % 60000) / 1000);
+
     els[0].textContent = String(days).padStart(2, '0');
     els[1].textContent = String(hours).padStart(2, '0');
     els[2].textContent = String(mins).padStart(2, '0');
     els[3].textContent = String(secs).padStart(2, '0');
   }
+
   update();
   setInterval(update, 1000);
 })();
+
 // --- NAV PARTICLE SYSTEM (trickling down from top) ---
 (function() {
   const canvas = document.getElementById('nav-particles-canvas');
@@ -64,11 +127,13 @@ function scrollTo(selector) {
   let W, H, pts = [];
   const COUNT = 40;
   const hues = [210, 210, 42, 42, 268];
+
   function resize() {
     const rect = navEl.getBoundingClientRect();
     W = canvas.width = rect.width;
     H = canvas.height = rect.height;
   }
+
   class Particle {
     constructor() { this.reset(true); }
     reset(init) {
@@ -82,7 +147,8 @@ function scrollTo(selector) {
       this.life = Math.random() * 300 + 150;
       this.maxLife = this.life;
       this.flicker = Math.random() * 0.015 + 0.004;
-    }    update() {
+    }
+    update() {
       this.x += this.speedX + Math.sin(Date.now() * this.flicker) * 0.1;
       this.y += this.speedY;
       this.life--;
@@ -103,11 +169,13 @@ function scrollTo(selector) {
       ctx.fill();
     }
   }
+
   function init() { resize(); pts = []; for (let i = 0; i < COUNT; i++) pts.push(new Particle()); }
   function animate() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
   init(); animate();
   window.addEventListener('resize', () => { resize(); pts.forEach(p => { if (p.x > W) p.x = Math.random() * W; }); });
 })();
+
 // --- FOOTER PARTICLE SYSTEM (rising from bottom, fading up) ---
 (function() {
   const canvas = document.getElementById('footer-particles-canvas');
@@ -117,11 +185,13 @@ function scrollTo(selector) {
   let W, H, pts = [];
   const COUNT = 80;
   const hues = [210, 210, 42, 42, 268];
+
   function resize() {
     const rect = footerEl.getBoundingClientRect();
     W = canvas.width = rect.width;
     H = canvas.height = rect.height;
   }
+
   class Particle {
     constructor() { this.reset(true); }
     reset(init) {
@@ -135,7 +205,8 @@ function scrollTo(selector) {
       this.life = Math.random() * 500 + 300;
       this.maxLife = this.life;
       this.flicker = Math.random() * 0.015 + 0.004;
-    }    update() {
+    }
+    update() {
       this.x += this.speedX + Math.sin(Date.now() * this.flicker) * 0.15;
       this.y += this.speedY;
       this.life--;
@@ -156,20 +227,24 @@ function scrollTo(selector) {
       ctx.fill();
     }
   }
+
   function init() { resize(); pts = []; for (let i = 0; i < COUNT; i++) pts.push(new Particle()); }
   function animate() { ctx.clearRect(0, 0, W, H); pts.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
   init(); animate();
   window.addEventListener('resize', () => { resize(); pts.forEach(p => { if (p.x > W) p.x = Math.random() * W; }); });
 })();
+
 // --- PARALLAX ON HERO LAYERS ---
 (function() {
   const layers = document.querySelectorAll('[data-parallax-speed]');
   if (!layers.length) return;
+
   function update() {
     const y = window.scrollY;
     const hero = document.querySelector('.hero');
     if (!hero) return;
     if (y > hero.offsetHeight * 1.2) return;
+
     layers.forEach(layer => {
       const speed = parseFloat(layer.getAttribute('data-parallax-speed'));
       const needsCenterX = layer.classList.contains('hero-layer-jack') || layer.classList.contains('hero-layer-wordmark');
@@ -178,6 +253,7 @@ function scrollTo(selector) {
         : `translateY(${y * speed}px)`;
     });
   }
+
   window.addEventListener('scroll', update, { passive: true });
   update();
 })();
@@ -186,9 +262,11 @@ function scrollTo(selector) {
 (function() {
   const layers = document.querySelectorAll('[data-section-parallax]');
   if (!layers.length) return;
+
   function update() {
     const viewH = window.innerHeight;
-    layers.forEach(layer => {      const section = layer.parentElement;
+    layers.forEach(layer => {
+      const section = layer.parentElement;
       const rect = section.getBoundingClientRect();
       if (rect.bottom < -200 || rect.top > viewH + 200) return;
       const speed = parseFloat(layer.getAttribute('data-section-parallax'));
@@ -196,6 +274,7 @@ function scrollTo(selector) {
       layer.style.transform = `translateY(${offset}px)`;
     });
   }
+
   window.addEventListener('scroll', update, { passive: true });
   update();
 })();
@@ -207,6 +286,7 @@ function scrollTo(selector) {
   const charGlow = document.querySelector('.char-glow');
   const positions = ['left', 'center', 'right'];
   let charOrder = ['hannah', 'jack', 'sam'];
+
   function applyPositions() {
     charSlots.forEach(slot => {
       const charName = slot.getAttribute('data-char');
@@ -215,11 +295,14 @@ function scrollTo(selector) {
     });
     if (charGlow) charGlow.setAttribute('data-active', charOrder[1]);
   }
+
   function rotate(dir) {
-    charOrder = dir > 0      ? [charOrder[2], charOrder[0], charOrder[1]]
+    charOrder = dir > 0
+      ? [charOrder[2], charOrder[0], charOrder[1]]
       : [charOrder[1], charOrder[2], charOrder[0]];
     applyPositions();
   }
+
   window.selectCharacter = function(charName) {
     const currentCenter = charOrder[1];
     if (charName === currentCenter) {
@@ -230,13 +313,16 @@ function scrollTo(selector) {
     if (idx === 0) rotate(-1);
     if (idx === 2) rotate(1);
   };
+
   applyPositions();
+
   // Arrow button clicks
   document.querySelectorAll('.char-arrow').forEach(btn => {
     btn.addEventListener('click', () => {
       rotate(btn.classList.contains('char-arrow-right') ? 1 : -1);
     });
   });
+
   // Keyboard nav
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') rotate(-1);
