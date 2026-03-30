@@ -322,7 +322,12 @@ function smoothScrollTo(selector) {
     charSlots.forEach(slot => {
       const charName = slot.getAttribute('data-char');
       const idx = charOrder.indexOf(charName);
-      if (idx >= 0) slot.setAttribute('data-position', positions[idx]);
+      if (idx >= 0) {
+        slot.setAttribute('data-position', positions[idx]);
+        // Swap Webflow combo classes to match new position
+        slot.classList.remove('v2-char-slot-left', 'v2-char-slot-center', 'v2-char-slot-right');
+        slot.classList.add('v2-char-slot-' + positions[idx]);
+      }
     });
     if (charGlow) charGlow.setAttribute('data-active', charOrder[1]);
   }
