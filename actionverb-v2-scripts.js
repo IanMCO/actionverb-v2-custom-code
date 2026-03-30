@@ -58,6 +58,9 @@
     '/* Spotlight ember edge glow */',
     '#spotlight::before { content:""; position:absolute; inset:0; z-index:2; pointer-events:none; background: radial-gradient(ellipse at 0% 50%, rgba(194,58,34,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 50%, rgba(194,58,34,0.08) 0%, transparent 50%); }',
     '/* Intro characters glow now handled via Webflow Designer (glow div + blur filter) */',
+    '/* Intro section bottom fade — blends halftone texture into section bg */',
+    '.v2-intro-section { position: relative; }',
+    '.v2-intro-bottom-fade { position:absolute; bottom:0; left:0; width:100%; height:200px; background:linear-gradient(to bottom, rgba(13,13,22,0) 0%, rgba(13,13,22,1) 100%); z-index:3; pointer-events:none; }',
     '/* Characters section-desc: white on dark bg to match prototype */',
     '#characters .v2-section-desc { color: rgba(255,255,255,0.6); }',
     '/* Character carousel smooth transitions */',
@@ -420,6 +423,27 @@ function smoothScrollTo(selector) {
     });
   } else {
     setTimeout(applyAccentColors, 200);
+  }
+})();
+
+// --- INTRO BOTTOM FADE INJECT ---
+// Injects a gradient div at the bottom of the intro section to blend
+// the halftone texture and blue glow seamlessly into the background.
+(function() {
+  function injectIntroFade() {
+    var intro = document.getElementById('intro');
+    if (!intro) return;
+    // Skip if already injected or if a Webflow-native fade div exists with proper styling
+    if (intro.querySelector('.v2-intro-bottom-fade')) return;
+    var fade = document.createElement('div');
+    fade.className = 'v2-intro-bottom-fade';
+    fade.setAttribute('data-fade', 'intro-bottom');
+    intro.appendChild(fade);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectIntroFade);
+  } else {
+    injectIntroFade();
   }
 })();
 
