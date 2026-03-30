@@ -60,7 +60,7 @@
     '/* Intro characters glow now handled via Webflow Designer (glow div + blur filter) */',
     '/* Intro section bottom fade — blends halftone texture into section bg */',
     '.v2-intro-section { position: relative; }',
-    '.v2-intro-bottom-fade { position:absolute; bottom:0; left:0; width:100%; height:200px; background:linear-gradient(to bottom, rgba(13,13,22,0) 0%, rgba(13,13,22,1) 100%); z-index:3; pointer-events:none; }',
+    '.v2-intro-bottom-fade { position:absolute; bottom:0; left:0; width:100%; height:400px; background:linear-gradient(to bottom, rgba(13,13,22,0) 0%, rgba(13,13,22,1) 100%); z-index:3; pointer-events:none; }',
     '/* Characters section-desc: white on dark bg to match prototype */',
     '#characters .v2-section-desc { color: rgba(255,255,255,0.6); }',
     '/* Character carousel smooth transitions */',
