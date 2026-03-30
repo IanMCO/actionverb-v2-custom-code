@@ -34,7 +34,8 @@
     '.v2-hero-flash { animation: lightningFlash 7s infinite; }',
     '.v2-scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; transition: opacity 0.5s; }',
     '.v2-scroll-indicator.hidden { opacity: 0; pointer-events: none; }',
-    '.v2-hero-layer-bg video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; transform: translate(-50%,-50%); object-fit: cover; }'
+    '.v2-hero-layer-bg video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; transform: translate(-50%,-50%); object-fit: cover; }',
+    '.v2-nav.visible { opacity: 1 !important; transform: translateY(0) !important; }'
   ].join('\n');
   document.head.appendChild(style);
 })();
