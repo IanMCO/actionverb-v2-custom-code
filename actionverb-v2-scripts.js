@@ -8,12 +8,19 @@
 
 // --- HERO DOM REORDER ---
 // Webflow element_builder can only append/prepend. Move hero to correct position.
+// Must wait for DOM to be ready since script loads before elements exist.
 (function() {
-  var hero = document.getElementById('hero');
-  var nav = document.getElementById('mainNav');
-  if (hero && nav && nav.parentNode) {
-    // Insert hero right after the nav
-    nav.parentNode.insertBefore(hero, nav.nextSibling);
+  function reorderHero() {
+    var hero = document.getElementById('hero');
+    var nav = document.getElementById('mainNav');
+    if (hero && nav && nav.parentNode) {
+      nav.parentNode.insertBefore(hero, nav.nextSibling);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', reorderHero);
+  } else {
+    reorderHero();
   }
 })();
 
@@ -69,7 +76,7 @@
 })();
 
 // --- SMOOTH SCROLL ---
-function scrollTo(selector) {
+function smoothScrollTo(selector) {
   const el = document.querySelector(selector);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
