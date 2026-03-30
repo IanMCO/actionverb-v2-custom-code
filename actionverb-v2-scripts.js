@@ -50,7 +50,13 @@
     '.v2-char-glow[data-active="hannah"] { background: rgba(46,204,113,0.2); }',
     '.v2-char-glow[data-active="sam"] { background: rgba(123,47,247,0.2); }',
     '.v2-char-label { opacity:0; transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1) 0.2s, transform 0.6s cubic-bezier(0.4,0,0.2,1); transform:scale(0.6); }',
-    '.v2-char-slot[data-position="center"] .v2-char-label { opacity:1; transform:scale(1); }'
+    '.v2-char-slot[data-position="center"] .v2-char-label { opacity:1; transform:scale(1); }',
+    '/* Spotlight overlay gradient — matches prototype .spotlight-overlay */',
+    '#spotlight::after { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(180deg, #0d0d16 0%, rgba(13,13,22,0.95) 15%, rgba(18,10,10,0.78) 50%, rgba(6,6,12,0.75) 88%, #06060c 100%); }',
+    '/* Spotlight grunge noise texture */',
+    '#spotlight .v2-spotlight-inner { z-index:3; }',
+    '/* Spotlight ember edge glow */',
+    '#spotlight::before { content:""; position:absolute; inset:0; z-index:2; pointer-events:none; background: radial-gradient(ellipse at 0% 50%, rgba(194,58,34,0.08) 0%, transparent 50%), radial-gradient(ellipse at 100% 50%, rgba(194,58,34,0.08) 0%, transparent 50%); }'
   ].join('\n');
   document.head.appendChild(style);
 })();
